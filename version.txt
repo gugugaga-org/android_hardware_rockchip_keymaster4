@@ -1,0 +1,33 @@
+VERSION_INFO  "version_1.0_20230920"
+
+======================================================
+keymaster:
+commit af68dd036c19b641b4702bea96862caac92dc397
+Author: callen.cai <callen.cai@rock-chips.com>
+Date:   Thu Sep 21 13:57:59 2023 +0800
+
+    Add version information.
+
+======================================================
+optee_test:
+
+commit b84bf24d834522f208293529307f65546846a98a
+Author: callen.cai <callen.cai@rock-chips.com>
+Date:   Wed Sep 20 14:43:15 2023 +0800
+
+    rk_keymaster : support authToken signature validate.
+    
+    Change-Id: Icb2e78110ff1660a37c031b42660b1e96d03b9ca
+    Signed-off-by: callen.cai <callen.cai@rock-chips.com>
+
+======================================================
+optee_client:
+
+commit 2592064168a71b0229da06c3dd306703d1e6eb87
+Author: Hisping Lin <hisping.lin@rock-chips.com>
+Date:   Wed May 17 16:30:47 2023 +0800
+
+    build.sh: support uclibc toolchain for rv1106
+    
+    Signed-off-by: Hisping Lin <hisping.lin@rock-chips.com>
+    Change-Id: Ib5545d7d6e92aed48c95b1d8f9f171b40a3a96d5
