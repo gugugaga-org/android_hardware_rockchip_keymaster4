@@ -8,6 +8,7 @@ cc_prebuilt_binary {
         "liblog",
         "libutils",
         "libcutils",
+        "libvendor_storage",
     ],
     arch: {
         arm64: {
