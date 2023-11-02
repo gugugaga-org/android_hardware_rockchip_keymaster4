@@ -1,12 +1,13 @@
-VERSION_INFO  "version_1.0_20230920"
+VERSION_INFO  "version_1.0_20231102"
 
 ======================================================
-keymaster:
-commit af68dd036c19b641b4702bea96862caac92dc397
+commit 75878c9e78b833ac387bd901db7d7c4d48c4ff72 (HEAD -> 14_release)
 Author: callen.cai <callen.cai@rock-chips.com>
-Date:   Thu Sep 21 13:57:59 2023 +0800
+Date:   Thu Nov 2 15:12:08 2023 +0800
 
-    Add version information.
+    rkp : update support eek curve type to CURVE_NONE.
+    
+    Signed-off-by: callen.cai <callen.cai@rock-chips.com>
 
 ======================================================
 optee_test:
