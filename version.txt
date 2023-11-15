@@ -1,13 +1,16 @@
 VERSION_INFO  "version_1.0_20231102"
 
 ======================================================
-commit 75878c9e78b833ac387bd901db7d7c4d48c4ff72 (HEAD -> 14_release)
+commit 800b5750e2f146306d0e79da4d002a60f6e5c205
 Author: callen.cai <callen.cai@rock-chips.com>
-Date:   Thu Nov 2 15:12:08 2023 +0800
+Date:   Wed Nov 15 17:31:18 2023 +0800
 
-    rkp : update support eek curve type to CURVE_NONE.
+    keymit3 : update Attestation ID init.
     
-    Signed-off-by: callen.cai <callen.cai@rock-chips.com>
+         This fix CTS CtsKeystoreTestCases:
+            android.keystore.cts.DeviceOwnerKeyManagementTest#testAllVariationsOfDeviceIdAttestation
+            android.keystore.cts.KeyAttestationTest#testRsaAttestation
+            android.keystore.cts.KeyAttestationTest#testEcAttestation
 
 ======================================================
 optee_test:
