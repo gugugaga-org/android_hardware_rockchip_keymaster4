@@ -66,3 +66,16 @@ Date:   Wed May 17 16:30:47 2023 +0800
     
     Signed-off-by: Hisping Lin <hisping.lin@rock-chips.com>
     Change-Id: Ib5545d7d6e92aed48c95b1d8f9f171b40a3a96d5
+
+======================================================
+provisioner:
+
+commit 10eb844937265b307db46accc7129259344a1cea (HEAD -> wv_release)
+Author: callen.cai <callen.cai@rock-chips.com>
+Date:   Wed May 22 18:02:18 2024 +0800
+
+    provisioner : only write csr need check status.
+
+    Signed-off-by: callen.cai <callen.cai@rock-chips.com>
+    Change-Id: Ic37b0c6502e718fd1f0ebce53708dfaf7ffab8d5
+
