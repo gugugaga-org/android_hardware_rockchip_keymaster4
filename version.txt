@@ -1,14 +1,14 @@
-VERSION_INFO  "version_1.0_20231124"
+VERSION_INFO  "version_1.0_20240606"
 
 ======================================================
 keymaster4:
 
-commit 85fd5503ecd4211ab2bea22dba15c7226389445f 
+commit aeec0d0bd65624c555f20c1f042075e6c95f45b6
 Author: callen.cai <callen.cai@rock-chips.com>
-Date:   Tue Nov 21 13:56:26 2023 +0800
+Date:   Thu Jun 6 10:53:36 2024 +0800
 
-    support device ID attestation provider.
-    
+    keymint : update for Android 12 ota support.
+
     Signed-off-by: callen.cai <callen.cai@rock-chips.com>
 
 ======================================================
