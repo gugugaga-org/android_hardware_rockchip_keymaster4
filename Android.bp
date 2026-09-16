@@ -13,6 +13,7 @@ cc_binary {
         "-Wextra",
     ],
     include_dirs:[
+        "system/libcppbor/include/cppbor",
         "system/keymaster/include",
         "system/keymaster/ng/include",
     ],
@@ -21,11 +22,16 @@ cc_binary {
     ],
     shared_libs: [
         "android.hardware.security.rkp-V3-ndk",
+        "android.hardware.security.keymint-V1-ndk_platform",
+        "android.hardware.security.keymint-V1-ndk",
+        "android.hardware.security.sharedsecret-V1-ndk_platform",
         "android.hardware.security.sharedsecret-V1-ndk",
+        "android.hardware.security.secureclock-V1-ndk_platform",
         "android.hardware.security.secureclock-V1-ndk",
         "libbase",
         "libbinder_ndk",
-        "libcppbor_external",
+        "libhardware",
+        "libRkcppbor_external",
         "libcrypto",
         "libRkkeymaster_portable",
         "libRksoftkeymasterdevice",
@@ -48,6 +54,7 @@ cc_binary {
     ],
     required: [
         "android.hardware.hardware_keystore.xml",
+        "libRkcppbor_external",
     ],
 }
 
@@ -188,6 +195,43 @@ cc_prebuilt_library_shared {
             srcs: ["prebuilts/arm/lib_Rk_keymaster_keymint_utils.so"],
         },
     },  
+    strip: {
+        none: true,
+    },
+    check_elf_files: false,
+    vendor: true,
+}
+
+cc_prebuilt_library_shared {
+    name: "libRkpuresoftkeymasterdevice",
+    compile_multilib: "both",
+    multilib: {
+        lib64: {
+            srcs: ["prebuilts/arm64/libRkpuresoftkeymasterdevice.so"],
+        },
+        lib32: {
+            srcs: ["prebuilts/arm/libRkpuresoftkeymasterdevice.so"],
+        },
+    },
+    strip: {
+        none: true,
+    },
+    check_elf_files: false,
+    vendor: true,
+}
+
+cc_prebuilt_library_shared {
+    name: "libRkcppbor_external",
+    stem: "libcppbor_external",
+    compile_multilib: "both",
+    multilib: {
+        lib64: {
+            srcs: ["prebuilts/arm64/libcppbor_external.so"],
+        },
+        lib32: {
+            srcs: ["prebuilts/arm/libcppbor_external.so"],
+        },
+    },
     strip: {
         none: true,
     },
