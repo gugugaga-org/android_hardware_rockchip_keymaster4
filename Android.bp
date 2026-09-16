@@ -13,17 +13,21 @@ cc_binary {
         "-Wextra",
     ],
     include_dirs:[
+        "external/libcppbor/include/cppbor",
         "system/keymaster/include",
         "system/keymaster/ng/include",
     ],
     shared_libs: [
         "android.hardware.security.keymint-V1-ndk_platform",
+        "android.hardware.security.keymint-V1-ndk",
         "android.hardware.security.sharedsecret-V1-ndk_platform",
+        "android.hardware.security.sharedsecret-V1-ndk",
         "android.hardware.security.secureclock-V1-ndk_platform",
+        "android.hardware.security.secureclock-V1-ndk",
         "libbase",
         "libbinder_ndk",
         "libhardware",
-        "libcppbor_external",
+        "libRkcppbor_external",
         "libcrypto",
         "libRkkeymaster_portable",
         "libRkkeymint",
@@ -35,7 +39,7 @@ cc_binary {
         "libRkkeymaster_messages",
         "libRkkeymaster_portable",
         "libRkpuresoftkeymasterdevice",
-        "libcppbor_external",
+        "libRkcppbor_external",
         "libRkcppcose_rkp",
         "libRkTeeKeymaster",
         "libRksoft_attestation_cert",
@@ -48,6 +52,7 @@ cc_binary {
     required: [
         "RemoteProvisioner",
         "android.hardware.hardware_keystore.xml",
+        "libRkcppbor_external",
     ],
 }
 
@@ -203,7 +208,8 @@ cc_prebuilt_library_shared {
 }
 
 cc_prebuilt_library_shared {
-    name: "libcppbor_external",
+    name: "libRkcppbor_external",
+    stem: "libcppbor_external",
     compile_multilib: "both",
     multilib: {
         lib64: {

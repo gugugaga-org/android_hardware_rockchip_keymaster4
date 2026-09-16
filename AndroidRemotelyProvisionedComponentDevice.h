@@ -16,7 +16,7 @@
 
 #pragma once
 
-#include <AndroidKeyMintDevice.h>
+#include "AndroidKeyMintDevice.h"
 #include <aidl/android/hardware/security/keymint/BnRemotelyProvisionedComponent.h>
 #include <aidl/android/hardware/security/keymint/RpcHardwareInfo.h>
 #include <aidl/android/hardware/security/keymint/SecurityLevel.h>
