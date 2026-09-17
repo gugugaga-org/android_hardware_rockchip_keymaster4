@@ -27,7 +27,7 @@ cc_binary {
         "libbase",
         "libbinder_ndk",
         "libhardware",
-        "libRkcppbor_external",
+        "libcppbor_external",
         "libcrypto",
         "libRkkeymaster_portable",
         "libRkkeymint",
@@ -39,7 +39,7 @@ cc_binary {
         "libRkkeymaster_messages",
         "libRkkeymaster_portable",
         "libRkpuresoftkeymasterdevice",
-        "libRkcppbor_external",
+        "libcppbor_external",
         "libRkcppcose_rkp",
         "libRkTeeKeymaster",
         "libRksoft_attestation_cert",
@@ -52,7 +52,6 @@ cc_binary {
     required: [
         "RemoteProvisioner",
         "android.hardware.hardware_keystore.xml",
-        "libcppbor_external",
     ],
 }
 
