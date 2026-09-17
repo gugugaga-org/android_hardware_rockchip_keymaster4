@@ -52,6 +52,7 @@ cc_binary {
     required: [
         "RemoteProvisioner",
         "android.hardware.hardware_keystore.xml",
+        "libcppbor_external",
     ],
 }
 
