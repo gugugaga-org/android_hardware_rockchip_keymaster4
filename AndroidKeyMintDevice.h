@@ -26,6 +26,7 @@ class AndroidKeymaster;
 
 namespace aidl::android::hardware::security::keymint {
 using ::ndk::ScopedAStatus;
+using std::array;
 using std::optional;
 using std::shared_ptr;
 using std::vector;
@@ -80,6 +81,11 @@ class AndroidKeyMintDevice : public BnKeyMintDevice {
     getKeyCharacteristics(const std::vector<uint8_t>& keyBlob, const std::vector<uint8_t>& appId,
                           const std::vector<uint8_t>& appData,
                           std::vector<KeyCharacteristics>* keyCharacteristics) override;
+
+    ScopedAStatus getRootOfTrustChallenge(array<uint8_t, 16>* challenge) override;
+    ScopedAStatus getRootOfTrust(const array<uint8_t, 16>& challenge,
+                                 vector<uint8_t>* rootOfTrust) override;
+    ScopedAStatus sendRootOfTrust(const vector<uint8_t>& rootOfTrust) override;
 
     shared_ptr<::keymaster::AndroidKeymaster>& getKeymasterImpl() { return impl_; }
 
