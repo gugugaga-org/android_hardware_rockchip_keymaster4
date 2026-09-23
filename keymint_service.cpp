@@ -59,6 +59,7 @@ using aidl::android::hardware::security::sharedsecret::AndroidSharedSecret;
 namespace {
 
 constexpr size_t kMetadataKeyAppIdSize = SHA512_DIGEST_LENGTH;
+constexpr size_t kMetadataKeyNormalizedAppIdSize = 16;
 constexpr std::array<uint8_t, 8> kMetadataKeyBlobMagic = {'T', 'P', 'M', '3', '1', '2', 'A', '1'};
 constexpr size_t kMetadataKeyBlobHeaderSize = kMetadataKeyBlobMagic.size() + sizeof(uint64_t);
 
@@ -164,8 +165,11 @@ bool isMetadataKeyRequest(const std::vector<KeyParameter> &keyParams) {
 bool hashMetadataAppIdBytes(const std::vector<uint8_t> &appId, std::vector<uint8_t> *digest) {
     if (appId.size() != kMetadataKeyAppIdSize)
         return false;
-    digest->resize(SHA256_DIGEST_LENGTH);
-    return SHA256(appId.data(), appId.size(), digest->data()) != nullptr;
+    std::array<uint8_t, SHA256_DIGEST_LENGTH> fullDigest{};
+    if (SHA256(appId.data(), appId.size(), fullDigest.data()) == nullptr)
+        return false;
+    digest->assign(fullDigest.begin(), fullDigest.begin() + kMetadataKeyNormalizedAppIdSize);
+    return true;
 }
 
 bool hashMetadataAppId(std::vector<KeyParameter> *keyParams) {
@@ -256,10 +260,18 @@ class RockchipKeyMintDevice : public AndroidKeyMintDevice {
         }
 
         // vold binds the metadata-encryption key to a 64-byte secdiscardable
-        // hash. Pass a fixed-size digest to the legacy RK implementation, and
-        // mark the returned opaque blob so only this key's later operations
-        // use the same digest. Unmarked HIDL-era key blobs remain unchanged.
+        // hash. Pass a fixed-size 128-bit digest to the legacy RK implementation,
+        // whose handling of long application IDs is not safe. Keystore2 adds
+        // CREATION_DATETIME for KeyMint v1; it is informational only, so keep it
+        // out of the legacy Keymaster request. Mark the returned opaque blob so
+        // only this key's later operations use the same digest. Unmarked
+        // HIDL-era key blobs remain unchanged.
         std::vector<KeyParameter> normalizedParams = keyParams;
+        normalizedParams.erase(
+            std::remove_if(normalizedParams.begin(), normalizedParams.end(), [](const auto &param) {
+                return param.tag == Tag::CREATION_DATETIME;
+            }),
+            normalizedParams.end());
         if (!hashMetadataAppId(&normalizedParams))
             return invalidWrappedMetadataKey();
 
