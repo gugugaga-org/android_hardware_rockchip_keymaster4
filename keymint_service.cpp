@@ -63,7 +63,10 @@ constexpr std::array<uint8_t, 8> kMetadataKeyBlobMagic = {'T', 'P', 'M', '3', '1
 constexpr size_t kMetadataKeyBlobHeaderSize = kMetadataKeyBlobMagic.size() + sizeof(uint64_t);
 
 bool isMetadataKeyRequest(const std::vector<KeyParameter> &keyParams) {
-    if (keyParams.size() != 9)
+    // Keystore2 adds CREATION_DATETIME for KeyMint v1 and newer before it
+    // forwards the request to the HAL. vold itself supplies the nine
+    // parameters checked below, so permit that one additional platform tag.
+    if (keyParams.size() < 9 || keyParams.size() > 10)
         return false;
 
     bool hasAppId = false;
@@ -75,6 +78,7 @@ bool isMetadataKeyRequest(const std::vector<KeyParameter> &keyParams) {
     bool hasNoPadding = false;
     bool hasEncryptPurpose = false;
     bool hasDecryptPurpose = false;
+    bool hasCreationDateTime = false;
 
     for (const auto &param : keyParams) {
         switch (param.tag) {
@@ -142,13 +146,19 @@ bool isMetadataKeyRequest(const std::vector<KeyParameter> &keyParams) {
                 return false;
             }
             break;
+        case Tag::CREATION_DATETIME:
+            if (hasCreationDateTime || param.value.getTag() != KeyParameterValue::dateTime)
+                return false;
+            hasCreationDateTime = true;
+            break;
         default:
             return false;
         }
     }
 
     return hasAppId && hasNoAuth && hasAesAlgorithm && has256BitSize && hasGcm && hasMinMac128 &&
-           hasNoPadding && hasEncryptPurpose && hasDecryptPurpose;
+           hasNoPadding && hasEncryptPurpose && hasDecryptPurpose &&
+           keyParams.size() == 9 + static_cast<size_t>(hasCreationDateTime);
 }
 
 bool hashMetadataAppIdBytes(const std::vector<uint8_t> &appId, std::vector<uint8_t> *digest) {
