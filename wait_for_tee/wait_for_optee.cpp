@@ -5,11 +5,14 @@
 
 #include <android/binder_manager.h>
 #include <aidl/android/hardware/security/keymint/IKeyMintDevice.h>
+#include <aidl/android/hardware/security/keymint/KeyMintHardwareInfo.h>
 #include <keymasterV4_1/Keymaster.h>
 
 using android::hardware::keymaster::V4_1::SecurityLevel;
 using android::hardware::keymaster::V4_1::support::Keymaster;
 using aidl::android::hardware::security::keymint::IKeyMintDevice;
+using aidl::android::hardware::security::keymint::KeyMintHardwareInfo;
+using AidlSecurityLevel = aidl::android::hardware::security::keymint::SecurityLevel;
 
 useconds_t kWaitTimeMicroseconds = 1 * 1000;  // 1 milliseconds
 
@@ -20,7 +23,19 @@ int main() {
         auto keymint = IKeyMintDevice::fromBinder(
                 ndk::SpAIBinder(AServiceManager_waitForService(keymintDesc.c_str())));
         if (keymint != nullptr) {
-            LOG(INFO) << "TEE keymint is ready";
+            KeyMintHardwareInfo info;
+            const auto status = keymint->getHardwareInfo(&info);
+            if (!status.isOk()) {
+                LOG(WARNING) << "KeyMint service is registered, but getHardwareInfo failed: "
+                             << status.getDescription();
+                return 0;
+            }
+            if (info.securityLevel == AidlSecurityLevel::SOFTWARE) {
+                LOG(WARNING) << "Software KeyMint is ready; "
+                                "hardware key protection is unavailable";
+            } else {
+                LOG(INFO) << "TEE KeyMint is ready";
+            }
             return 0;
         }
         LOG(INFO) << "Get back to check keymaster 3/4";
